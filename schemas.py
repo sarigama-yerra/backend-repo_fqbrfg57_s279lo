@@ -12,7 +12,8 @@ Model name is converted to lowercase for the collection name:
 """
 
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
+from datetime import datetime
 
 # Example schemas (replace with your own):
 
@@ -38,8 +39,20 @@ class Product(BaseModel):
     category: str = Field(..., description="Product category")
     in_stock: bool = Field(True, description="Whether product is in stock")
 
-# Add your own schemas here:
-# --------------------------------------------------
+# SaaS Image Generation app schemas
+
+class Generation(BaseModel):
+    """
+    Image generations collection schema
+    Collection name: "generation"
+    """
+    prompt: str = Field(..., description="Text prompt used to generate the image")
+    style: Optional[str] = Field(None, description="Optional artistic style")
+    size: Optional[str] = Field("square", description="Output size preset: square | landscape | portrait")
+    image_url: str = Field(..., description="URL of the generated image")
+    width: Optional[int] = Field(None, description="Image width in pixels")
+    height: Optional[int] = Field(None, description="Image height in pixels")
+    created_at: Optional[datetime] = Field(None, description="Creation timestamp (auto)")
 
 # Note: The Flames database viewer will automatically:
 # 1. Read these schemas from GET /schema endpoint
